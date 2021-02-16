@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Monster Slayer</h1>
+    </header>
+    <div id="game">
+      <section v-show="gameOverStatus || isSurrend" class="container">
+        <h1>Game Over</h1>
+        <h3 :class="gameOverMessage.className">{{gameOverMessage.message}}</h3>
+      </section>
+      <section
+        v-show="!(gameOverStatus || isSurrend)"
+        id="monster"
+        class="container"
+      >
+        <h2>Monster Health</h2>
+        <div class="healthbar">
+          <div
+            class="healthbar__value"
+            :style="{width: monsterHealth + '%'}"
+          ></div>
+        </div>
+      </section>
+      <section
+        v-show="!(gameOverStatus || isSurrend)"
+        id="player"
+        class="container"
+      >
+        <h2>Your Health</h2>
+        <div class="healthbar">
+          <div
+            class="healthbar__value"
+            :style="{width: playerHealth + '%'}"
+          ></div>
+        </div>
+        <h2>Your Mana</h2>
+        <div class="manabar">
+          <div class="manabar__value" :style="{width: playerMana + '%'}"></div>
+        </div>
+      </section>
+      <section v-show="!(gameOverStatus || isSurrend)" id="controls">
+        <button @click="playerRegularAttack">ATTACK</button>
+        <button
+          :disabled="!isSpecialAttackAvailable"
+          @click="playerSpecialAttack"
+        >
+          SPECIAL ATTACK
+        </button>
+        <button @click="heal">HEAL</button>
+        <button @click="surrender">SURRENDER</button>
+      </section>
+      <section id="log" class="container" v-if="logs.length > 0">
+        <h2>Battle Log</h2>
+        <ul>
+          <li v-for="log in logs" :class="log.className">{{log.message}}</li>
+        </ul>
+      </section>
+    </div>
+  </body>
+</html>
